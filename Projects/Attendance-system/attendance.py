@@ -4,8 +4,16 @@ import face_recognition
 import os
 from datetime import datetime
 from PIL import ImageGrab
- 
-path = 'Attendance-system/ImagesAttendance'
+#new added
+import openpyxl
+
+wb=openpyxl.load_workbook("Attendance.xlsx")
+wb1=wb['Sheet1']
+
+nameList=[]
+path = 'ImagesAttendance'
+#new added
+#path = 'Attendance-system/ImagesAttendance'
 images = []
 classNames = []
 myList = os.listdir(path)
@@ -24,7 +32,7 @@ def findEncodings(images):
         encodeList.append(encode)
     return encodeList
  
-def markAttendance(name):
+"""def markAttendance(name):
     with open('Attendance-system/Attendance.csv','r+') as f:
         myDataList = f.readlines()
         nameList = []
@@ -35,7 +43,7 @@ def markAttendance(name):
                 now = datetime.now()
                 dtString = now.strftime('%H:%M:%S')
                 f.writelines(f'n{name},{dtString}')
- 
+ """
 #### FOR CAPTURING SCREEN RATHER THAN WEBCAM
 def captureScreen(bbox=(300,300,690+300,530+300)):
      capScr = np.array(ImageGrab.grab(bbox))
@@ -46,7 +54,7 @@ encodeListKnown = findEncodings(images)
 print('Encoding Complete')
  
 cap = cv2.VideoCapture(0)
- 
+f=0 #new added
 while True:
     success, img = cap.read()
     #img = captureScreen()
@@ -70,7 +78,22 @@ while True:
             cv2.rectangle(img,(x1,y1),(x2,y2),(0,255,0),2)
             cv2.rectangle(img,(x1,y2-35),(x2,y2),(0,255,0),cv2.FILLED)
             cv2.putText(img,name,(x1+6,y2-6),cv2.FONT_HERSHEY_COMPLEX,1,(255,255,255),2)
-            markAttendance(name)
+            #markAttendance(name)
+           f=1#new added
  
     cv2.imshow('Webcam',img)
     cv2.waitKey(1)
+    #new added
+    if(f==1):
+        if name not in nameList:
+            now=datetime.now()
+            dtString = now.strftime('%H:%M:%S')
+            dt= now.strftime('%d:%m:%Y')
+            wb1.cell(column=1,row=wb1.max_row+1,value=name)
+            wb1.cell(column=2,row=wb1.max_row,value=dtString)
+            wb1.cell(column=3,row=wb1.max_row,value=dt)
+            nameList.append(name)
+        
+        wb.save("Attendance.xlsx")
+        #new added
+        
