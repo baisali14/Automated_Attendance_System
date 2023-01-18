@@ -1,4 +1,4 @@
-# Attendance System using Face Recognition
+# Automated Attendance System using Face Recognition
 This project is an attendance system that uses face recognition to record attendance. It utilizes the OpenCV and face_recognition libraries to detect faces in webcam footage and compares them to a pre-existing set of known faces. If a match is found, the script will display the name of the matched person on the webcam footage and also stores the attendance in "Attendance.xlsx" file.
 
 ## Prerequisites
