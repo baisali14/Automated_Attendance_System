@@ -6,7 +6,7 @@ from datetime import datetime
 from openpyxl import Workbook
 
  
-path = 'ImageAttendance'
+path = 'Projects/Attendance-system/ImageAttendance'
 images = []
 classNames = []
 myList = os.listdir(path)
